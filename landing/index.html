@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SnapClass AI — Campus Biometric Intelligence Suite</title>
+  <meta name="description" content="Automate classroom attendance with AI-powered facial recognition and voice biometrics. Built for modern campuses." />
+  <meta property="og:title" content="SnapClass AI — Campus Biometric Intelligence" />
+  <meta property="og:description" content="99.4% accurate face recognition. Zero manual roll-calls. Built for faculty." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --indigo: #4F46E5;
+      --indigo-light: #6366F1;
+      --emerald: #10B981;
+      --amber: #F59E0B;
+      --bg: #060912;
+      --bg-card: rgba(255,255,255,0.035);
+      --bg-card-hover: rgba(255,255,255,0.055);
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(99,102,241,0.4);
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #475569;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Animated Mesh Background ── */
+    .mesh-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .mesh-bg::before {
+      content: '';
+      position: absolute;
+      width: 900px; height: 900px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(79,70,229,0.18) 0%, transparent 70%);
+      top: -200px; left: -200px;
+      animation: float1 18s ease-in-out infinite;
+    }
+    .mesh-bg::after {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(16,185,129,0.13) 0%, transparent 70%);
+      bottom: -150px; right: -150px;
+      animation: float2 22s ease-in-out infinite;
+    }
+    .mesh-orb {
+      position: absolute;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      animation: float3 15s ease-in-out infinite;
+    }
+    @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(80px,60px)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-60px,-80px)} }
+    @keyframes float3 { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-50%,-50%) scale(1.15)} }
+
+    .grid-overlay {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 0%, transparent 100%);
+    }
+
+    .wrapper { position: relative; z-index: 1; }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(6,9,18,0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s ease;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 1.15rem; font-weight: 800;
+      color: var(--text-primary); text-decoration: none; letter-spacing: -0.02em;
+    }
+    .logo-icon {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      box-shadow: 0 4px 12px rgba(79,70,229,0.4);
+    }
+    .nav-badge {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      color: var(--emerald); background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.2);
+      padding: 2px 8px; border-radius: 100px;
+    }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+      color: #fff; font-weight: 700; font-size: 0.88rem;
+      padding: 0.55rem 1.4rem; border-radius: 10px; text-decoration: none;
+      box-shadow: 0 4px 14px rgba(79,70,229,0.35);
+      transition: all 0.25s ease;
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(79,70,229,0.5); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 8rem 1.5rem 5rem;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(79,70,229,0.12); border: 1px solid rgba(79,70,229,0.25);
+      border-radius: 100px; padding: 0.4rem 1rem;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+      color: #A5B4FC; margin-bottom: 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--emerald); box-shadow: 0 0 8px var(--emerald);
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.7)} }
+
+    .hero-title {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900; line-height: 1.05; letter-spacing: -0.04em;
+      color: #fff; max-width: 900px; margin: 0 auto 1.5rem;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #818CF8 0%, #6366F1 40%, #A78BFA 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .green-text {
+      background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.2rem); color: var(--text-secondary);
+      max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.7;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.3s ease both; margin-bottom: 4rem;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: linear-gradient(135deg, #4F46E5, #6366F1);
+      color: #fff; font-size: 1rem; font-weight: 700; padding: 0.9rem 2rem;
+      border-radius: 14px; text-decoration: none;
+      box-shadow: 0 6px 24px rgba(79,70,229,0.4);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 40px rgba(79,70,229,0.55); }
+    .btn-arrow { display: inline-flex; align-items: center; transition: transform 0.25s ease; }
+    .btn-primary:hover .btn-arrow { transform: translateX(4px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      color: var(--text-secondary); font-size: 0.95rem; font-weight: 600;
+      padding: 0.9rem 1.8rem; border-radius: 14px; text-decoration: none;
+      transition: all 0.25s ease;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.09); color: #fff; transform: translateY(-1px); }
+
+    /* Stats bar */
+    .hero-stats {
+      display: flex; background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+    .hero-stat { flex: 1; padding: 1.25rem 2rem; text-align: center; position: relative; }
+    .hero-stat:not(:last-child)::after {
+      content: ''; position: absolute; right: 0; top: 20%; height: 60%;
+      width: 1px; background: var(--border);
+    }
+    .stat-val { font-size: 1.55rem; font-weight: 800; letter-spacing: -0.03em; }
+    .stat-lbl { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+
+    /* ── Sections ── */
+    section { max-width: 1200px; margin: 0 auto; padding: 6rem 1.5rem; }
+    .eyebrow {
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.5px;
+      font-weight: 700; color: #818CF8; margin-bottom: 0.75rem; text-align: center;
+    }
+    .sec-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em;
+      color: #fff; text-align: center; margin-bottom: 1rem;
+    }
+    .sec-sub {
+      font-size: 1rem; color: var(--text-secondary); text-align: center;
+      max-width: 560px; margin: 0 auto 3.5rem; line-height: 1.7;
+    }
+
+    /* ── Feature Cards ── */
+    .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
+    .feat-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2rem; position: relative; overflow: hidden;
+      transition: all 0.35s ease; opacity: 0; transform: translateY(24px);
+    }
+    .feat-card.vis { opacity: 1; transform: translateY(0); }
+    .feat-card:hover {
+      background: var(--bg-card-hover); border-color: var(--border-hover);
+      transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+    .feat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 20px 20px 0 0; }
+    .fc-a::before { background: linear-gradient(90deg,#4F46E5,#818CF8); }
+    .fc-b::before { background: linear-gradient(90deg,#10B981,#34D399); }
+    .fc-c::before { background: linear-gradient(90deg,#F59E0B,#FBBF24); }
+    .fc-d::before { background: linear-gradient(90deg,#8B5CF6,#A78BFA); }
+    .fc-e::before { background: linear-gradient(90deg,#06B6D4,#22D3EE); }
+    .fc-f::before { background: linear-gradient(90deg,#F43F5E,#FB7185); }
+
+    .feat-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 1.25rem;
+    }
+    .fi-a { background:rgba(79,70,229,0.12); border:1px solid rgba(79,70,229,0.2); }
+    .fi-b { background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.2); }
+    .fi-c { background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.2); }
+    .fi-d { background:rgba(139,92,246,0.12); border:1px solid rgba(139,92,246,0.2); }
+    .fi-e { background:rgba(6,182,212,0.12); border:1px solid rgba(6,182,212,0.2); }
+    .fi-f { background:rgba(244,63,94,0.12); border:1px solid rgba(244,63,94,0.2); }
+
+    .feat-tag { font-size:0.68rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+    .ft-a{color:#818CF8;} .ft-b{color:#34D399;} .ft-c{color:#FBBF24;} .ft-d{color:#A78BFA;} .ft-e{color:#22D3EE;} .ft-f{color:#FB7185;}
+    .feat-name { font-size:1.2rem; font-weight:800; color:#fff; margin-bottom:0.6rem; letter-spacing:-0.02em; }
+    .feat-desc { font-size:0.9rem; color:var(--text-secondary); line-height:1.65; }
+
+    /* ── Steps ── */
+    .steps-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1rem; }
+    .step-card {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:16px; padding:1.75rem;
+      opacity:0; transform:translateY(20px); transition:all 0.35s ease;
+    }
+    .step-card.vis { opacity:1; transform:translateY(0); }
+    .step-num {
+      font-size:0.72rem; font-weight:700; letter-spacing:1px; color:#4F46E5;
+      font-family:'JetBrains Mono',monospace; margin-bottom:1rem;
+      background:rgba(79,70,229,0.1); border:1px solid rgba(79,70,229,0.2);
+      display:inline-block; padding:3px 10px; border-radius:6px;
+    }
+    .step-title { font-size:1.05rem; font-weight:800; color:#fff; margin-bottom:0.5rem; }
+    .step-desc { font-size:0.87rem; color:var(--text-secondary); line-height:1.6; }
+
+    /* ── Tech Badges ── */
+    .tech-row { display:flex; flex-wrap:wrap; gap:0.75rem; justify-content:center; margin-top:1.25rem; }
+    .tech-badge {
+      display:inline-flex; align-items:center; gap:0.4rem;
+      background:rgba(255,255,255,0.04); border:1px solid var(--border);
+      border-radius:100px; padding:0.45rem 1rem;
+      font-size:0.82rem; color:var(--text-secondary); font-weight:500;
+      transition:all 0.2s ease;
+    }
+    .tech-badge:hover { background:rgba(255,255,255,0.08); color:#fff; }
+
+    /* ── CTA ── */
+    .cta-wrap { text-align:center; padding:4rem 1.5rem 8rem; position:relative; }
+    .cta-glow {
+      position:absolute; width:600px; height:300px; border-radius:50%;
+      background:radial-gradient(circle, rgba(79,70,229,0.2) 0%, transparent 70%);
+      left:50%; top:50%; transform:translate(-50%,-50%); pointer-events:none;
+    }
+    .cta-box {
+      position:relative; max-width:700px; margin:0 auto;
+      background:rgba(255,255,255,0.03); border:1px solid rgba(99,102,241,0.2);
+      border-radius:28px; padding:4rem 3rem; overflow:hidden;
+    }
+    .cta-box::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(79,70,229,0.06),rgba(99,102,241,0.02));
+      border-radius:inherit;
+    }
+    .cta-inner { position:relative; }
+    .cta-title { font-size:clamp(1.8rem,4vw,2.5rem); font-weight:900; letter-spacing:-0.035em; color:#fff; margin-bottom:1rem; }
+    .cta-sub { font-size:1rem; color:var(--text-secondary); margin-bottom:2.5rem; line-height:1.7; }
+    .cta-btn {
+      display:inline-flex; align-items:center; gap:0.75rem;
+      background:linear-gradient(135deg,#4F46E5,#6366F1); color:#fff;
+      font-size:1.05rem; font-weight:800; padding:1rem 2.5rem;
+      border-radius:14px; text-decoration:none;
+      box-shadow:0 8px 30px rgba(79,70,229,0.45); transition:all 0.3s ease;
+    }
+    .cta-btn:hover { transform:translateY(-3px) scale(1.03); box-shadow:0 16px 48px rgba(79,70,229,0.6); }
+    .cta-btn:hover .btn-arrow { transform:translateX(5px); }
+    .cta-note { margin-top:1.25rem; font-size:0.82rem; color:var(--text-muted); }
+
+    /* ── Footer ── */
+    footer {
+      border-top:1px solid var(--border); padding:1.75rem 2.5rem;
+      display:flex; align-items:center; justify-content:space-between;
+      flex-wrap:wrap; gap:1rem; position:relative; z-index:1;
+    }
+    .foot-brand { font-size:0.95rem; font-weight:800; color:var(--text-secondary); }
+    .foot-brand span { color:#818CF8; }
+    .foot-note { font-size:0.82rem; color:var(--text-muted); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    @media (max-width:768px) {
+      nav { padding:1rem 1.25rem; }
+      .hero { padding:7rem 1.25rem 4rem; }
+      .hero-stats { flex-direction:column; }
+      .hero-stat:not(:last-child)::after { display:none; }
+      .cta-box { padding:2.5rem 1.5rem; }
+      footer { flex-direction:column; text-align:center; }
+    }
+    @media (max-width:480px) {
+      .hero-title { font-size:2.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="mesh-bg"><div class="mesh-orb"></div></div>
+  <div class="grid-overlay"></div>
+
+  <div class="wrapper">
+
+    <!-- NAV -->
+    <nav id="navbar">
+      <a href="#" class="nav-logo">
+        <div class="logo-icon">🎓</div>
+        SnapClass <strong>AI</strong>
+      </a>
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <span class="nav-badge">Beta</span>
+        <a href="https://snapclass-biometric.streamlit.app" target="_blank" rel="noopener" class="nav-cta">
+          Launch App <span class="btn-arrow">→</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        Campus Biometric Intelligence Suite
+      </div>
+      <h1 class="hero-title">
+        Attendance on<br />
+        <span class="gradient-text">Autopilot.</span>
+        <span class="green-text"> Zero Fraud.</span>
+      </h1>
+      <p class="hero-subtitle">
+        SnapClass AI replaces manual roll-calls with instant AI-powered facial recognition
+        and voice biometrics — accurate, tamper-proof, and built for modern campuses.
+      </p>
+      <div class="hero-actions">
+        <a href="https://snapclass-biometric.streamlit.app" target="_blank" rel="noopener" class="btn-primary">
+          🚀 Launch the App <span class="btn-arrow">→</span>
+        </a>
+        <a href="#features" class="btn-ghost">See Features ↓</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="stat-val" style="color:#818CF8;">99.4%</div>
+          <div class="stat-lbl">Face Match Accuracy</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-val" style="color:#34D399;">&lt; 1.2s</div>
+          <div class="stat-lbl">Inference Latency</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-val" style="color:#FBBF24;">Dual AI</div>
+          <div class="stat-lbl">Vision + Voice</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-val" style="color:#FB7185;">128-d</div>
+          <div class="stat-lbl">Face Embeddings</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section id="features">
+      <div class="eyebrow">Capabilities</div>
+      <h2 class="sec-title">Everything a campus needs</h2>
+      <p class="sec-sub">From single-click roll-calls to tamper-proof records — every feature built with faculty in mind.</p>
+      <div class="feat-grid">
+        <div class="feat-card fc-a" data-delay="0">
+          <div class="feat-icon fi-a">📸</div>
+          <div class="feat-tag ft-a">Vision AI</div>
+          <div class="feat-name">Batch Face Recognition</div>
+          <div class="feat-desc">Mark attendance for the entire classroom in one photo. Recognizes multiple faces using 128-dimensional embeddings.</div>
+        </div>
+        <div class="feat-card fc-b" data-delay="80">
+          <div class="feat-icon fi-b">🎙️</div>
+          <div class="feat-tag ft-b">Voice AI</div>
+          <div class="feat-name">Voice Biometrics</div>
+          <div class="feat-desc">Secondary verification via speaker recognition. Students cannot proxy-attend for others — ever.</div>
+        </div>
+        <div class="feat-card fc-c" data-delay="160">
+          <div class="feat-icon fi-c">📊</div>
+          <div class="feat-tag ft-c">Analytics</div>
+          <div class="feat-name">CSV Export &amp; Reports</div>
+          <div class="feat-desc">One-click export filtered by subject, date, or student — ready for any university portal.</div>
+        </div>
+        <div class="feat-card fc-d" data-delay="0">
+          <div class="feat-icon fi-d">📈</div>
+          <div class="feat-tag ft-d">Student View</div>
+          <div class="feat-name">75% Eligibility Tracker</div>
+          <div class="feat-desc">Real-time subject-wise percentages with alerts when students fall below the 75% threshold.</div>
+        </div>
+        <div class="feat-card fc-e" data-delay="80">
+          <div class="feat-icon fi-e">📲</div>
+          <div class="feat-tag ft-e">Access</div>
+          <div class="feat-name">Passwordless FaceID Login</div>
+          <div class="feat-desc">Students sign in using only their face — no passwords, no PINs. Pure biometric-first authentication.</div>
+        </div>
+        <div class="feat-card fc-f" data-delay="160">
+          <div class="feat-icon fi-f">🔒</div>
+          <div class="feat-tag ft-f">Privacy</div>
+          <div class="feat-name">Zero Raw Data Storage</div>
+          <div class="feat-desc">Only 128-d vectors stored — never raw photos. Privacy-first, FERPA-aligned architecture.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how" style="padding-top:0;">
+      <div class="eyebrow">Workflow</div>
+      <h2 class="sec-title">How it works</h2>
+      <p class="sec-sub">Simple for faculty, invisible for students. Entire roll-call in under 10 seconds.</p>
+      <div class="steps-grid">
+        <div class="step-card" data-delay="0">
+          <div class="step-num">STEP 01</div>
+          <div class="step-title">Faculty signs in</div>
+          <div class="step-desc">Secure email + password login via Supabase. No complex onboarding required.</div>
+        </div>
+        <div class="step-card" data-delay="80">
+          <div class="step-num">STEP 02</div>
+          <div class="step-title">Capture classroom photo</div>
+          <div class="step-desc">Take a single group photo or use webcam. AI detects all faces instantly.</div>
+        </div>
+        <div class="step-card" data-delay="160">
+          <div class="step-num">STEP 03</div>
+          <div class="step-title">AI marks attendance</div>
+          <div class="step-desc">Faces matched against enrolled embeddings. Present / Absent marked in under 1.2s per student.</div>
+        </div>
+        <div class="step-card" data-delay="240">
+          <div class="step-num">STEP 04</div>
+          <div class="step-title">Export and close</div>
+          <div class="step-desc">Review, edit if needed, then export a clean CSV — also synced live to the student dashboard.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:3.5rem; text-align:center;">
+        <div class="eyebrow">Powered By</div>
+        <div class="tech-row">
+          <span class="tech-badge">🐍 Python 3.11</span>
+          <span class="tech-badge">⚡ Streamlit</span>
+          <span class="tech-badge">🧠 face_recognition (dlib)</span>
+          <span class="tech-badge">🗄️ Supabase</span>
+          <span class="tech-badge">🔊 SpeechBrain</span>
+          <span class="tech-badge">📷 OpenCV</span>
+          <span class="tech-badge">🔢 NumPy</span>
+          <span class="tech-badge">☁️ Streamlit Cloud</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <div class="cta-glow"></div>
+      <div class="cta-box" id="cta-box">
+        <div class="cta-inner">
+          <div class="eyebrow" style="margin-bottom:0.75rem;">Ready to use · Free · No setup</div>
+          <h2 class="cta-title">Stop taking attendance.<br />Let AI do it.</h2>
+          <p class="cta-sub">SnapClass AI is live. No setup required — enroll your class once and you're done forever.</p>
+          <a href="https://snapclass-biometric.streamlit.app" target="_blank" rel="noopener" class="cta-btn">
+            🚀 Open SnapClass AI <span class="btn-arrow">→</span>
+          </a>
+          <p class="cta-note">Works on desktop &amp; mobile &nbsp;·&nbsp; No account needed for students</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="foot-brand">Snap<span>Class</span> AI</div>
+      <div class="foot-note">Built with ❤️ using Streamlit · Powered by deep learning</div>
+    </footer>
+
+  </div><!-- /wrapper -->
+
+  <script>
+    // Scroll reveal
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const d = parseInt(e.target.dataset.delay || 0);
+          setTimeout(() => e.target.classList.add('vis'), d);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.feat-card, .step-card').forEach(el => io.observe(el));
+
+    // CTA fade-up
+    const cta = document.getElementById('cta-box');
+    if (cta) {
+      Object.assign(cta.style, { opacity:'0', transform:'translateY(28px)', transition:'opacity .7s ease, transform .7s ease' });
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) { cta.style.opacity='1'; cta.style.transform='translateY(0)'; }
+      }, { threshold:0.1 }).observe(cta);
+    }
+
+    // Navbar glass on scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').style.background =
+        scrollY > 40 ? 'rgba(6,9,18,0.92)' : 'rgba(6,9,18,0.7)';
+    });
+  </script>
+</body>
+</html>

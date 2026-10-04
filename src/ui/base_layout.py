@@ -160,11 +160,21 @@ def style_base_layout():
         }}
 
         /* Primary Button */
-        button[kind="primary"] {{
+        button[kind="primary"],
+        .stButton > button[kind="primary"] {{
             background: linear-gradient(135deg, #4F46E5 0%, #4338CA 100%) !important;
             color: #FFFFFF !important;
             border: none !important;
             box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3) !important;
+        }}
+
+        /* Force white text inside primary button - prevent global p/span override */
+        button[kind="primary"] p,
+        button[kind="primary"] span,
+        button[kind="primary"] div,
+        .stButton > button[kind="primary"] p,
+        .stButton > button[kind="primary"] span {{
+            color: #FFFFFF !important;
         }}
 
         button[kind="primary"]:hover {{
@@ -174,11 +184,19 @@ def style_base_layout():
         }}
 
         /* Secondary Button */
-        button[kind="secondary"] {{
+        button[kind="secondary"],
+        .stButton > button[kind="secondary"] {{
             background: {btn_sec_bg} !important;
             color: {btn_sec_text} !important;
             border: 1px solid {btn_sec_border} !important;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+        }}
+
+        button[kind="secondary"] p,
+        button[kind="secondary"] span,
+        .stButton > button[kind="secondary"] p,
+        .stButton > button[kind="secondary"] span {{
+            color: {btn_sec_text} !important;
         }}
 
         button[kind="secondary"]:hover {{

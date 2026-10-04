@@ -277,6 +277,34 @@ def style_base_layout():
             border-radius: 12px !important;
         }}
 
+        /* Always show "Take Photo" button — Streamlit hides it until hover by default */
+        div[data-testid="stCameraInput"] button {{
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: flex !important;
+            pointer-events: auto !important;
+            background: rgba(79, 70, 229, 0.85) !important;
+            color: #FFFFFF !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-weight: 700 !important;
+            font-size: 0.9rem !important;
+            letter-spacing: 0.02em !important;
+            transition: background 0.2s ease !important;
+        }}
+
+        div[data-testid="stCameraInput"] button:hover {{
+            background: #4F46E5 !important;
+            color: #FFFFFF !important;
+        }}
+
+        div[data-testid="stCameraInput"] button p,
+        div[data-testid="stCameraInput"] button span {{
+            color: #FFFFFF !important;
+            font-weight: 700 !important;
+        }}
+
+
         /* Selectboxes */
         div[data-baseweb="select"] > div {{
             background-color: {input_bg} !important;

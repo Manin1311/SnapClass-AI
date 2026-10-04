@@ -58,17 +58,24 @@ def style_base_layout():
             height: 0 !important;
         }}
 
-        /* CRITICAL FIX: Hide the annoying "Press Enter to apply" popup that overlaps eye icon */
-        div[data-testid="stInputInstructions"], 
+        /* CRITICAL FIX: Hide all "Press Enter to apply" popups that overlap inputs */
+        div[data-testid*="nputInstructions"],
+        div[data-testid*="instructions"],
+        div[data-testid*="Instruction"],
+        div[data-testid="stInputInstructions"],
         .stTextInput small, 
         .stPasswordInput small,
-        div[data-testid="stInputInstructions"] > span {{
+        div[data-baseweb="base-input"] + div,
+        div[data-baseweb="input"] + div {{
             display: none !important;
             visibility: hidden !important;
             opacity: 0 !important;
             height: 0 !important;
+            width: 0 !important;
             margin: 0 !important;
             padding: 0 !important;
+            pointer-events: none !important;
+            position: absolute !important;
         }}
 
         /* Canvas */
@@ -94,9 +101,27 @@ def style_base_layout():
             font-weight: 700 !important;
         }}
 
-        p, span, label {{
+        p, label, .stMarkdown p {{
             font-family: 'Inter', sans-serif !important;
             color: {text_secondary} !important;
+        }}
+
+        /* Protect Material Icons / Font Glyphs from font override */
+        .material-symbols-rounded,
+        .material-symbols-outlined,
+        .material-icons,
+        [class*="material-symbols"],
+        [class*="material-icons"],
+        .stPasswordInput button *,
+        div[data-baseweb="input"] button * {{
+            font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Icons', sans-serif !important;
+            font-size: 1.25rem !important;
+            line-height: 1 !important;
+            letter-spacing: normal !important;
+            text-transform: none !important;
+            white-space: nowrap !important;
+            word-wrap: normal !important;
+            direction: ltr !important;
         }}
 
         /* Streamlit Bordered Containers (Glass Cards) */
@@ -108,8 +133,10 @@ def style_base_layout():
             box-shadow: {card_shadow} !important;
         }}
 
-        /* Modern Buttons */
-        button {{
+        /* Modern Action Buttons (Do NOT style input internal buttons like password toggle) */
+        .stButton > button,
+        button[kind="primary"],
+        button[kind="secondary"] {{
             font-family: 'Plus Jakarta Sans', sans-serif !important;
             font-weight: 600 !important;
             font-size: 0.92rem !important;
@@ -144,6 +171,34 @@ def style_base_layout():
             background: {bg_card_inner} !important;
             border-color: #6366F1 !important;
             transform: translateY(-1px) !important;
+        }}
+
+        /* Password Visibility Toggle Button Reset (Keeps eye icon clean, compact and transparent) */
+        .stPasswordInput button,
+        div[data-baseweb="input"] button,
+        div[data-baseweb="base-input"] button {{
+            all: unset !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: transparent !important;
+            border: none !important;
+            padding: 4px 8px !important;
+            margin: 0 !important;
+            width: auto !important;
+            height: auto !important;
+            color: {text_secondary} !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }}
+
+        .stPasswordInput button:hover,
+        div[data-baseweb="input"] button:hover {{
+            background: transparent !important;
+            color: #4F46E5 !important;
+            box-shadow: none !important;
+            transform: none !important;
         }}
 
         /* Form Inputs */

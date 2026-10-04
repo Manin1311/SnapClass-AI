@@ -380,6 +380,10 @@ def register_teacher(teacher_username, teacher_name, teacher_pass, teacher_pass_
 
 
 def teacher_screen_login():
+    is_dark = (st.session_state.get('theme_mode', 'light') == 'dark')
+    title_color = "#F8FAFC" if is_dark else "#0F172A"
+    sub_color = "#94A3B8" if is_dark else "#64748B"
+
     c1, c2 = st.columns([3, 1], vertical_alignment='center')
     with c1:
         header_dashboard()
@@ -391,13 +395,13 @@ def teacher_screen_login():
     _, center_col, _ = st.columns([1, 2.4, 1])
     with center_col:
         with st.container(border=True):
-            st.markdown("""
+            st.markdown(f"""
                 <div style="text-align:center; margin-bottom:1.5rem;">
                     <div style="display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; border-radius:12px; background:rgba(99, 102, 241, 0.15); border:1px solid rgba(99, 102, 241, 0.3); margin-bottom:0.75rem;">
                         <span style="font-size:1.4rem;">🔐</span>
                     </div>
-                    <h2 style="margin:0; font-size:1.55rem; color:#F8FAFC;">Faculty Sign In</h2>
-                    <p style="margin:4px 0 0 0; color:#94A3B8; font-size:0.88rem;">Authenticate to manage courses and execute AI attendance</p>
+                    <h2 style="margin:0; font-size:1.55rem; color:{title_color};">Faculty Sign In</h2>
+                    <p style="margin:4px 0 0 0; color:{sub_color}; font-size:0.88rem;">Authenticate to manage courses and execute AI attendance</p>
                 </div>
             """, unsafe_allow_html=True)
 
@@ -423,6 +427,10 @@ def teacher_screen_login():
 
 
 def teacher_screen_register():
+    is_dark = (st.session_state.get('theme_mode', 'light') == 'dark')
+    title_color = "#F8FAFC" if is_dark else "#0F172A"
+    sub_color = "#94A3B8" if is_dark else "#64748B"
+
     c1, c2 = st.columns([3, 1], vertical_alignment='center')
     with c1:
         header_dashboard()
@@ -434,13 +442,13 @@ def teacher_screen_register():
     _, center_col, _ = st.columns([1, 2.4, 1])
     with center_col:
         with st.container(border=True):
-            st.markdown("""
+            st.markdown(f"""
                 <div style="text-align:center; margin-bottom:1.5rem;">
                     <div style="display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; border-radius:12px; background:rgba(16, 185, 129, 0.15); border:1px solid rgba(16, 185, 129, 0.3); margin-bottom:0.75rem;">
                         <span style="font-size:1.4rem;">📝</span>
                     </div>
-                    <h2 style="margin:0; font-size:1.55rem; color:#F8FAFC;">Register Faculty Profile</h2>
-                    <p style="margin:4px 0 0 0; color:#94A3B8; font-size:0.88rem;">Join the automated biometric attendance system</p>
+                    <h2 style="margin:0; font-size:1.55rem; color:{title_color};">Register Faculty Profile</h2>
+                    <p style="margin:4px 0 0 0; color:{sub_color}; font-size:0.88rem;">Join the automated biometric attendance system</p>
                 </div>
             """, unsafe_allow_html=True)
 

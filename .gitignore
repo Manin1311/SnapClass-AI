@@ -1,0 +1,25 @@
+# Sensitive Credentials & Secrets (NEVER PUSH TO GITHUB)
+.streamlit/secrets.toml
+.env
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+env/
+venv/
+.venv/
+ENV/
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Artifacts
+.DS_Store
+Thumbs.db

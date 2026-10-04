@@ -1,0 +1,1 @@
+# SnapClass AI root package

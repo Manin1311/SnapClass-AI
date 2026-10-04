@@ -32,14 +32,14 @@
 
 ```mermaid
 graph TD
-    A[Classroom Photo / Camera Snap] --> B[dlib 128-d Face Descriptor]
-    C[Student Voice Audio] --> D[Resemblyzer Voice Encoder]
-    B --> E[Scikit-Learn SVC Classifier]
-    D --> F[Cosine Similarity Engine]
-    E --> G[PostgreSQL / Supabase Database]
+    A["📸 Classroom Photo<br/>(Camera Snap)"] --> B["dlib 128-d<br/>Face Descriptor"]
+    C["🎙️ Student Voice Audio<br/>(Speech Input)"] --> D["Resemblyzer<br/>Voice Encoder"]
+    B --> E["Scikit-Learn<br/>SVC Classifier"]
+    D --> F["Cosine Similarity<br/>Engine"]
+    E --> G[("🗄️ PostgreSQL / Supabase<br/>Vector Storage")]
     F --> G
-    G --> H[Faculty Command Center & CSV Export]
-    G --> I[Student Dashboard & 75% Health Gauge]
+    G --> H["📊 Faculty Hub<br/>& CSV Export"]
+    G --> I["🎓 Student Dashboard<br/>(75% Gauge)"]
 ```
 
 - **Frontend / Presentation**: Streamlit (Python) with a custom Glassmorphic Design System (`Plus Jakarta Sans`, `Inter`, `JetBrains Mono`). Supports both **Clean Enterprise Light Mode (default)** and **Cyber Dark Mode**.

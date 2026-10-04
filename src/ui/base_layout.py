@@ -26,6 +26,9 @@ def style_base_layout():
         text_muted = "#64748B"
         input_bg = "rgba(15, 23, 42, 0.85)"
         input_border = "rgba(255, 255, 255, 0.12)"
+        btn_pri_bg = "linear-gradient(135deg, #4F46E5 0%, #4338CA 100%)"
+        btn_pri_text = "#FFFFFF"
+        btn_pri_border = "transparent"
         btn_sec_bg = "rgba(30, 41, 59, 0.8)"
         btn_sec_text = "#E2E8F0"
         btn_sec_border = "rgba(255, 255, 255, 0.1)"
@@ -42,7 +45,10 @@ def style_base_layout():
         text_muted = "#94A3B8"
         input_bg = "#FFFFFF"
         input_border = "#CBD5E1"
-        btn_sec_bg = "#FFFFFF"
+        btn_pri_bg = "#EEF2FF"
+        btn_pri_text = "#3730A3"
+        btn_pri_border = "#C7D2FE"
+        btn_sec_bg = "#F1F5F9"
         btn_sec_text = "#1E293B"
         btn_sec_border = "#CBD5E1"
         kpi_bg = "#FFFFFF"
@@ -147,40 +153,41 @@ def style_base_layout():
             box-shadow: {card_shadow} !important;
         }}
 
-        /* Modern Action Buttons (Do NOT style input internal buttons like password toggle) */
+        /* Modern Action Buttons base styles */
         .stButton > button,
         button[kind="primary"],
         button[kind="secondary"] {{
             font-family: 'Plus Jakarta Sans', sans-serif !important;
-            font-weight: 600 !important;
-            font-size: 0.92rem !important;
+            font-weight: 700 !important;
+            font-size: 0.93rem !important;
             border-radius: 10px !important;
-            padding: 0.6rem 1.4rem !important;
+            padding: 0.65rem 1.4rem !important;
+            letter-spacing: 0.01em !important;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }}
 
         /* Primary Button */
         button[kind="primary"],
         .stButton > button[kind="primary"] {{
-            background: linear-gradient(135deg, #4F46E5 0%, #4338CA 100%) !important;
-            color: #FFFFFF !important;
-            border: none !important;
-            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3) !important;
+            background: {btn_pri_bg} !important;
+            color: {btn_pri_text} !important;
+            border: 1.5px solid {btn_pri_border} !important;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.12) !important;
         }}
 
-        /* Force white text inside primary button - prevent global p/span override */
         button[kind="primary"] p,
         button[kind="primary"] span,
         button[kind="primary"] div,
         .stButton > button[kind="primary"] p,
         .stButton > button[kind="primary"] span {{
-            color: #FFFFFF !important;
+            color: {btn_pri_text} !important;
+            font-weight: 700 !important;
         }}
 
         button[kind="primary"]:hover {{
             transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45) !important;
-            filter: brightness(1.06) !important;
+            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.22) !important;
+            filter: brightness(0.97) !important;
         }}
 
         /* Secondary Button */
@@ -188,8 +195,8 @@ def style_base_layout():
         .stButton > button[kind="secondary"] {{
             background: {btn_sec_bg} !important;
             color: {btn_sec_text} !important;
-            border: 1px solid {btn_sec_border} !important;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+            border: 1.5px solid {btn_sec_border} !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
         }}
 
         button[kind="secondary"] p,
@@ -197,11 +204,12 @@ def style_base_layout():
         .stButton > button[kind="secondary"] p,
         .stButton > button[kind="secondary"] span {{
             color: {btn_sec_text} !important;
+            font-weight: 700 !important;
         }}
 
         button[kind="secondary"]:hover {{
             background: {bg_card_inner} !important;
-            border-color: #6366F1 !important;
+            border-color: #818CF8 !important;
             transform: translateY(-1px) !important;
         }}
 

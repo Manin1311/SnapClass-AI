@@ -1,9 +1,6 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "landing/index.html", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "/landing/index.html" }
+  "rewrites": [
+    { "source": "/", "destination": "/landing/index.html" },
+    { "source": "/(.*)", "destination": "/landing/index.html" }
   ]
 }

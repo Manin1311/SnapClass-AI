@@ -17,15 +17,12 @@ def header_home():
     badge_border = "rgba(99, 102, 241, 0.3)" if is_dark else "#C7D2FE"
     badge_text = "#A5B4FC" if is_dark else "#4338CA"
 
-    title_gradient = (
-        "linear-gradient(135deg, #FFFFFF 30%, #94A3B8 100%)"
-        if is_dark
-        else "linear-gradient(135deg, #0F172A 40%, #334155 100%)"
-    )
+    title_color = "#FFFFFF" if is_dark else "#0F172A"
+    ai_accent_color = "#818CF8" if is_dark else "#4F46E5"
     subtitle_color = "#94A3B8" if is_dark else "#475569"
 
     # Top Bar with Theme Toggle
-    top_col1, top_col2 = st.columns([4, 1], vertical_alignment='center')
+    top_col1, top_col2 = st.columns([5, 1], vertical_alignment='center')
     with top_col2:
         render_theme_toggle()
 
@@ -35,8 +32,8 @@ def header_home():
                 <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10B981; box-shadow:0 0 8px #10B981;"></span>
                 <span style="font-size:0.75rem; font-weight:700; color:{badge_text}; letter-spacing:0.5px; text-transform:uppercase;">Campus Biometric Intelligence v2.4</span>
             </div>
-            <h1 style="margin:0; font-size:2.8rem; font-weight:800; background:{title_gradient}; -webkit-background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:-0.03em;">
-                SnapClass <span style="background:linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">AI</span>
+            <h1 style="margin:0; font-size:2.8rem; font-weight:800; color:{title_color}; letter-spacing:-0.03em;">
+                SnapClass <span style="color:{ai_accent_color};">AI</span>
             </h1>
             <p style="margin-top:0.5rem; font-size:1.02rem; color:{subtitle_color}; max-width:560px; font-weight:400; line-height:1.5;">
                 Enterprise-grade facial & voice biometric attendance automation with multi-student instant recognition.

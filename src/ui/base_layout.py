@@ -52,10 +52,24 @@ def style_base_layout():
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-        /* Hide Streamlit Default Chrome */
-        #MainMenu, footer, header {{
+        /* Hide Streamlit Default Chrome & Cloud Viewer Badges */
+        #MainMenu, footer, header,
+        [data-testid="stToolbar"],
+        [data-testid="stHeader"],
+        [data-testid="stDecoration"],
+        [data-testid="stStatusWidget"],
+        [class*="viewerBadge"],
+        [class*="manageApp"],
+        #manage-app-button,
+        [data-testid="manage-app-button"],
+        .stDeployButton,
+        [class*="FloatingMenu"] {{
+            display: none !important;
             visibility: hidden !important;
+            opacity: 0 !important;
             height: 0 !important;
+            width: 0 !important;
+            pointer-events: none !important;
         }}
 
         /* CRITICAL FIX: Hide all "Press Enter to apply" popups that overlap inputs */

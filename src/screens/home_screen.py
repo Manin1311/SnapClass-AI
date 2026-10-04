@@ -97,7 +97,7 @@ def home_screen():
 
     # Feature Highlights Row
     st.markdown(f"""
-        <div style="margin-top:3rem; padding:1.5rem 2rem; background:{stats_bg}; border:1px solid {stats_border}; border-radius:14px; display:grid; grid-template-columns:repeat(4, 1fr); gap:1.5rem; text-align:center; box-shadow:{card_shadow};">
+        <div style="margin-top:2.5rem; padding:1.25rem 1.5rem; background:{stats_bg}; border:1px solid {stats_border}; border-radius:14px; display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:1.25rem; text-align:center; box-shadow:{card_shadow};">
             <div>
                 <div style="font-size:1.45rem; font-weight:800; color:{title_color}; font-family:'Plus Jakarta Sans';">99.4%</div>
                 <div style="font-size:0.78rem; color:#64748B; margin-top:2px;">Face Match Precision</div>

@@ -25,35 +25,33 @@ def subject_card(name, code, section, stats=None, footer_callback=None):
 
     stats_html = ""
     if stats:
-        stats_html += """
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
-        """
+        pills = []
         for icon, label, value in stats:
-            stats_html += f"""
-                <div style="background:{stat_bg}; border:1px solid {stat_border}; padding:6px 12px; border-radius:8px; font-size:0.82rem; color:{text_sub}; display:flex; align-items:center; gap:6px;">
-                    <span>{icon}</span>
-                    <span>{label}:</span>
-                    <strong style="color:{title_color}; font-weight:700;">{value}</strong>
-                </div>
-            """
-        stats_html += "</div>"
+            pills.append(
+                f'<div style="background:{stat_bg}; border:1px solid {stat_border}; padding:6px 12px; border-radius:8px; font-size:0.82rem; color:{text_sub}; display:inline-flex; align-items:center; gap:6px;">'
+                f'<span>{icon}</span>'
+                f'<span>{label}:</span>'
+                f'<strong style="color:{title_color}; font-weight:700;">{value}</strong>'
+                f'</div>'
+            )
+        stats_html = f'<div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">{"".join(pills)}</div>'
 
-    html = f"""
-        <div style="background:{bg_card}; border:1px solid {border_card}; padding:1.4rem; border-radius:14px; position:relative; overflow:hidden; margin-bottom:1rem; box-shadow:{shadow};">
-            <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #4F46E5, #38BDF8);"></div>
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
-                <div>
-                    <h3 style="margin:0 0 6px 0; color:{title_color}; font-size:1.2rem; font-weight:700; letter-spacing:-0.01em;">{name}</h3>
-                    <div style="display:flex; align-items:center; gap:8px; font-size:0.82rem;">
-                        <span style="background:rgba(79, 70, 229, 0.1); border:1px solid rgba(79, 70, 229, 0.25); color:#4F46E5; font-family:'JetBrains Mono', monospace; font-weight:700; padding:2px 8px; border-radius:6px;">{code}</span>
-                        <span style="color:#CBD5E1;">•</span>
-                        <span style="color:{text_sub};">Section <strong style="color:{sec_color};">{section}</strong></span>
-                    </div>
-                </div>
-            </div>
-            {stats_html}
-        </div>
-    """
+    html = (
+        f'<div style="background:{bg_card}; border:1px solid {border_card}; padding:1.4rem; border-radius:14px; position:relative; overflow:hidden; margin-bottom:1rem; box-shadow:{shadow};">'
+        f'<div style="position:absolute; top:0; left:0; width:100%; height:3px; background:linear-gradient(90deg, #4F46E5, #38BDF8);"></div>'
+        f'<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">'
+        f'<div>'
+        f'<h3 style="margin:0 0 6px 0; color:{title_color}; font-size:1.2rem; font-weight:700; letter-spacing:-0.01em;">{name}</h3>'
+        f'<div style="display:flex; align-items:center; gap:8px; font-size:0.82rem;">'
+        f'<span style="background:rgba(79, 70, 229, 0.1); border:1px solid rgba(79, 70, 229, 0.25); color:#4F46E5; font-family:\'JetBrains Mono\', monospace; font-weight:700; padding:2px 8px; border-radius:6px;">{code}</span>'
+        f'<span style="color:#CBD5E1;">•</span>'
+        f'<span style="color:{text_sub};">Section <strong style="color:{sec_color};">{section}</strong></span>'
+        f'</div>'
+        f'</div>'
+        f'</div>'
+        f'{stats_html}'
+        f'</div>'
+    )
 
     st.markdown(html, unsafe_allow_html=True)
 

@@ -4,8 +4,11 @@ from PIL import Image
 
 @st.dialog("Classroom Imagery Ingestion")
 def add_photos_dialog():
-    st.markdown("""
-        <p style="color:#94A3B8; font-size:0.88rem; margin-bottom:1rem;">
+    is_dark = (st.session_state.get('theme_mode', 'light') == 'dark')
+    desc_color = "#94A3B8" if is_dark else "#475569"
+
+    st.markdown(f"""
+        <p style="color:{desc_color}; font-size:0.92rem; line-height:1.55; margin-bottom:1.25rem;">
             Provide classroom photos containing student faces. AI will detect and run multi-face embeddings simultaneously.
         </p>
     """, unsafe_allow_html=True)

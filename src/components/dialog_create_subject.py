@@ -4,8 +4,11 @@ from src.database.db import create_subject
 
 @st.dialog("Create Academic Subject")
 def create_subject_dialog(teacher_id):
-    st.markdown("""
-        <p style="color:#94A3B8; font-size:0.88rem; margin-bottom:1rem;">
+    is_dark = (st.session_state.get('theme_mode', 'light') == 'dark')
+    desc_color = "#94A3B8" if is_dark else "#475569"
+
+    st.markdown(f"""
+        <p style="color:{desc_color}; font-size:0.92rem; line-height:1.55; margin-bottom:1.25rem;">
             Configure course parameters and section designations to initialize attendance tracking rosters.
         </p>
     """, unsafe_allow_html=True)

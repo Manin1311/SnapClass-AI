@@ -34,6 +34,14 @@ def style_base_layout():
         btn_sec_border = "rgba(255, 255, 255, 0.1)"
         kpi_bg = "rgba(17, 24, 39, 0.7)"
         card_shadow = "0 10px 25px -5px rgba(0, 0, 0, 0.5)"
+        dialog_bg = "#111827"
+        dialog_border = "rgba(255, 255, 255, 0.12)"
+        dialog_title = "#F8FAFC"
+        dialog_text = "#94A3B8"
+        dialog_label = "#E2E8F0"
+        dialog_input_bg = "rgba(15, 23, 42, 0.85)"
+        dialog_input_border = "rgba(255, 255, 255, 0.15)"
+        dialog_shadow = "0 25px 60px -10px rgba(0, 0, 0, 0.6)"
     else:
         # Crisp, Clean Enterprise Light Theme (Preferable for Faculty & Presentations)
         bg_app = "#F8FAFC"
@@ -42,7 +50,7 @@ def style_base_layout():
         border_card = "#E2E8F0"
         text_primary = "#0F172A"
         text_secondary = "#475569"
-        text_muted = "#94A3B8"
+        text_muted = "#64748B"
         input_bg = "#FFFFFF"
         input_border = "#CBD5E1"
         btn_pri_bg = "#EEF2FF"
@@ -53,6 +61,14 @@ def style_base_layout():
         btn_sec_border = "#CBD5E1"
         kpi_bg = "#FFFFFF"
         card_shadow = "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05), 0 16px 24px -4px rgba(0, 0, 0, 0.04)"
+        dialog_bg = "#FFFFFF"
+        dialog_border = "#E2E8F0"
+        dialog_title = "#0F172A"
+        dialog_text = "#475569"
+        dialog_label = "#1E293B"
+        dialog_input_bg = "#F8FAFC"
+        dialog_input_border = "#CBD5E1"
+        dialog_shadow = "0 20px 50px -10px rgba(15, 23, 42, 0.15)"
 
     css = f"""
         <style>
@@ -324,6 +340,114 @@ def style_base_layout():
         hr {{
             border-color: {border_card} !important;
             margin: 1.5rem 0 !important;
+        }}
+
+        /* ══════════════════════════════════════════════════════
+           STREAMLIT MODAL DIALOGS (@st.dialog) - THEME ADAPTIVE
+           ══════════════════════════════════════════════════════ */
+        div[data-testid="stDialog"],
+        div[data-testid="stModal"],
+        div[data-baseweb="modal"],
+        div[data-baseweb="modal-body"],
+        section[role="dialog"],
+        div[role="dialog"] {{
+            background: {dialog_bg} !important;
+            background-color: {dialog_bg} !important;
+            color: {dialog_text} !important;
+        }}
+
+        div[role="dialog"],
+        div[data-baseweb="modal-body"],
+        section[role="dialog"] {{
+            border: 1.5px solid {dialog_border} !important;
+            border-radius: 20px !important;
+            box-shadow: {dialog_shadow} !important;
+            padding: 1.5rem !important;
+        }}
+
+        /* Dialog Title & Header */
+        div[role="dialog"] h1,
+        div[role="dialog"] h2,
+        div[role="dialog"] h3,
+        div[role="dialog"] h4,
+        div[data-testid="stDialog"] h1,
+        div[data-testid="stDialog"] h2,
+        div[data-testid="stDialog"] h3,
+        div[data-testid="stDialogHeader"],
+        [data-testid="stDialogHeader"] * {{
+            color: {dialog_title} !important;
+            -webkit-text-fill-color: {dialog_title} !important;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            font-weight: 800 !important;
+        }}
+
+        /* Dialog Close Button (X) */
+        div[role="dialog"] button[aria-label="Close"],
+        div[data-testid="stDialog"] button[aria-label="Close"],
+        div[role="dialog"] button[aria-label="Close"] svg,
+        div[data-testid="stDialog"] button[aria-label="Close"] svg {{
+            color: {dialog_text} !important;
+            fill: {dialog_text} !important;
+        }}
+        div[role="dialog"] button[aria-label="Close"]:hover,
+        div[data-testid="stDialog"] button[aria-label="Close"]:hover {{
+            color: {dialog_title} !important;
+        }}
+
+        /* Dialog Paragraphs & Descriptive text */
+        div[role="dialog"] p,
+        div[data-testid="stDialog"] p,
+        div[role="dialog"] span:not([class*="material"]),
+        div[data-testid="stDialog"] span:not([class*="material"]) {{
+            color: {dialog_text} !important;
+            font-family: 'Inter', sans-serif !important;
+        }}
+
+        /* Dialog Form Labels */
+        div[role="dialog"] label,
+        div[data-testid="stDialog"] label,
+        div[role="dialog"] label p,
+        div[data-testid="stDialog"] label p,
+        div[role="dialog"] label span,
+        div[data-testid="stDialog"] label span {{
+            color: {dialog_label} !important;
+            -webkit-text-fill-color: {dialog_label} !important;
+            font-weight: 600 !important;
+            font-size: 0.92rem !important;
+        }}
+
+        /* Dialog Inputs */
+        div[role="dialog"] div[data-baseweb="input"],
+        div[data-testid="stDialog"] div[data-baseweb="input"],
+        div[role="dialog"] div[data-baseweb="base-input"],
+        div[data-testid="stDialog"] div[data-baseweb="base-input"],
+        div[role="dialog"] .stTextInput input,
+        div[data-testid="stDialog"] .stTextInput input {{
+            background-color: {dialog_input_bg} !important;
+            border: 1.5px solid {dialog_input_border} !important;
+            border-radius: 10px !important;
+            color: {dialog_title} !important;
+            -webkit-text-fill-color: {dialog_title} !important;
+        }}
+
+        div[role="dialog"] div[data-baseweb="input"]:focus-within,
+        div[data-testid="stDialog"] div[data-baseweb="input"]:focus-within,
+        div[role="dialog"] .stTextInput input:focus,
+        div[data-testid="stDialog"] .stTextInput input:focus {{
+            border-color: #6366F1 !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18) !important;
+        }}
+
+        /* High-Contrast Input Placeholders in both Light & Dark */
+        input::placeholder,
+        textarea::placeholder,
+        div[role="dialog"] input::placeholder,
+        div[data-testid="stDialog"] input::placeholder,
+        div[data-baseweb="input"] input::placeholder {{
+            color: {text_muted} !important;
+            -webkit-text-fill-color: {text_muted} !important;
+            opacity: 1 !important;
+            font-weight: 500 !important;
         }}
         </style>
     """

@@ -6,8 +6,11 @@ import time
 
 @st.dialog("Course Enrollment")
 def enroll_dialog():
-    st.markdown("""
-        <p style="color:#94A3B8; font-size:0.88rem; margin-bottom:1rem;">
+    is_dark = (st.session_state.get('theme_mode', 'light') == 'dark')
+    desc_color = "#94A3B8" if is_dark else "#475569"
+
+    st.markdown(f"""
+        <p style="color:{desc_color}; font-size:0.92rem; line-height:1.55; margin-bottom:1.25rem;">
             Enter the unique Course Code provided by your instructor to link your biometric profile to the class roster.
         </p>
     """, unsafe_allow_html=True)

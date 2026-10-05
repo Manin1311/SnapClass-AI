@@ -26,13 +26,19 @@ def auto_enroll_dialog(subject_code):
             st.rerun()
         return
 
+    is_dark = (st.session_state.get('theme_mode', 'light') == 'dark')
+    card_bg = "rgba(255,255,255,0.03)" if is_dark else "#F1F5F9"
+    card_border = "rgba(255,255,255,0.08)" if is_dark else "#E2E8F0"
+    title_col = "#F8FAFC" if is_dark else "#0F172A"
+    desc_col = "#94A3B8" if is_dark else "#475569"
+
     st.markdown(f"""
-        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem;">
-            <div style="font-size:0.75rem; text-transform:uppercase; color:#818CF8; font-weight:700;">Invited Course</div>
-            <h3 style="margin:4px 0 0 0; color:#F8FAFC; font-size:1.25rem;">{subject['name']}</h3>
-            <span style="font-family:'JetBrains Mono', monospace; font-size:0.85rem; color:#A5B4FC;">Code: {subject['subject_code']}</span>
+        <div style="background:{card_bg}; border:1px solid {card_border}; border-radius:12px; padding:1.25rem; margin-bottom:1.25rem;">
+            <div style="font-size:0.75rem; text-transform:uppercase; color:#6366F1; font-weight:700;">Invited Course</div>
+            <h3 style="margin:4px 0 0 0; color:{title_col}; font-size:1.25rem;">{subject['name']}</h3>
+            <span style="font-family:'JetBrains Mono', monospace; font-size:0.85rem; color:#4F46E5; font-weight:600;">Code: {subject['subject_code']}</span>
         </div>
-        <p style="color:#94A3B8; font-size:0.88rem;">Would you like to enroll and associate your facial biometrics with this course roster?</p>
+        <p style="color:{desc_col}; font-size:0.9rem; line-height:1.5;">Would you like to enroll and associate your facial biometrics with this course roster?</p>
     """, unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)

@@ -1,11 +1,18 @@
 import streamlit as st
 
 
-def render_theme_toggle():
+def render_theme_toggle(compact=False, key="theme_toggle_btn"):
+    """Render the theme toggle button.
+    compact=True → icon-only (🌙/☀️) for tight spaces like the top-right bar.
+    compact=False → full label for home screen top bar.
+    """
     current = st.session_state.get('theme_mode', 'light')
     target = 'dark' if current == 'light' else 'light'
-    label = "🌙 Dark Mode" if current == 'light' else "☀️ Light Mode"
-    if st.button(label, key="theme_toggle_btn", type="secondary"):
+    if compact:
+        label = "🌙" if current == 'light' else "☀️"
+    else:
+        label = "🌙 Dark Mode" if current == 'light' else "☀️ Light Mode"
+    if st.button(label, key=key, type="secondary", help="Toggle Light / Dark Mode"):
         st.session_state['theme_mode'] = target
         st.rerun()
 
@@ -24,7 +31,7 @@ def header_home():
     # Top Bar with Theme Toggle
     top_col1, top_col2 = st.columns([5, 1], vertical_alignment='center')
     with top_col2:
-        render_theme_toggle()
+        render_theme_toggle(compact=False, key="theme_toggle_home")
 
     st.markdown(f"""
         <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; margin-top:0.5rem; margin-bottom:2.25rem; text-align:center;">
